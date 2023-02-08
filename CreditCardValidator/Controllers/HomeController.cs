@@ -1,5 +1,7 @@
 ﻿using Application.Common.Interfaces;
+using Application.CreditCards.Queries;
 using CreditCardValidator.Models;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -8,22 +10,18 @@ namespace CreditCardValidator.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMediator _mediator;
 
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
+        public HomeController(ILogger<HomeController> logger, IMediator mediator)
         {
 
             _logger = logger;
-            _unitOfWork = unitOfWork;
+            _mediator = mediator;
         }
 
         public async Task<IActionResult> Index()
         {
-            var creditCards = _unitOfWork.CreditCardRepository.GetAll();
-            var creditCardProviders = _unitOfWork.CreditCardProviderRepository.GetAll();
-
-            var ccpList = await creditCardProviders.ToListAsync();
-            var ccList = await creditCards.ToListAsync();
+            var creditCardProviders = await _mediator.Send(new GetCreditCardProvidersQuery());
 
             return View();
         }
