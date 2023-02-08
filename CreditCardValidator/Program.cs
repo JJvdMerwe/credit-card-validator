@@ -1,5 +1,4 @@
 using Application.Common.Interfaces;
-using Application.DataSeeder;
 using Domain.Entities;
 using Infrastructure.Persistence.EF;
 using Microsoft.EntityFrameworkCore;
