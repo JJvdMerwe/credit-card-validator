@@ -1,6 +1,6 @@
 ﻿using Application.Common.Interfaces;
-using Application.CreditCards.DTOs;
-using Application.CreditCards.Queries;
+using Application.CreditCardProviders.DTOs;
+using Application.CreditCardProviders.Queries;
 using Domain.Entities;
 using MediatR;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.CreditCards.Commands
+namespace Application.CreditCardProviders.Commands
 {
     public record UpdateCreditCardProviderCommand(CreditCardProviderDTO Data) : IRequest<int>;
 

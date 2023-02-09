@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Application.CreditCards.DTOs.CreditCardProviderDTO>
+﻿@model IEnumerable<Application.CreditCardProviders.DTOs.CreditCardProviderDTO>
 
 @{
     ViewData["Title"] = "Providers";
@@ -13,16 +13,13 @@
     <thead>
         <tr>
             <th>
-                Id
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                Name
+                @Html.DisplayNameFor(model => model.CardNumberRegEx)
             </th>
             <th>
-                Card Nr RegEX
-            </th>
-            <th>
-                Last Modified
+                @Html.DisplayNameFor(model => model.LastModified)
             </th>
             <th></th>
         </tr>
@@ -31,9 +28,6 @@
         @foreach (var item in Model)
         {
             <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>

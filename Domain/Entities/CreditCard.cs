@@ -13,12 +13,12 @@ namespace Domain.Entities
         public CreditCard()
         {
             Number = string.Empty;
-            CreditCardProvider = new CreditCardProvider();
+            Provider = new CreditCardProvider();
             DateCreated = DateTime.Now;
         }
 
         public string Number { get; set; }
-        public CreditCardProvider CreditCardProvider { get; set; }
+        public CreditCardProvider Provider { get; set; }
         public DateTime DateCreated { get; set; }
     }
 }

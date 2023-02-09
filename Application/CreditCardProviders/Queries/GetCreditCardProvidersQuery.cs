@@ -1,8 +1,8 @@
 ﻿using Application.Common.Interfaces;
-using Application.CreditCards.DTOs;
+using Application.CreditCardProviders.DTOs;
 using MediatR;
 
-namespace Application.CreditCards.Queries
+namespace Application.CreditCardProviders.Queries
 {
     public record GetCreditCardProvidersQuery : IRequest<List<CreditCardProviderDTO>>;
 
