@@ -17,10 +17,13 @@ namespace Application.CreditCards.Queries
 
         public async Task<List<CreditCardProviderDTO>> Handle(GetCreditCardProvidersQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.CreditCardProviderRepository.GetAll().
-                Select(x => new CreditCardProviderDTO() { 
+            return await _unitOfWork.CreditCardProviderRepository.GetAll()
+                .Select(x => new CreditCardProviderDTO() { 
+                    Id = x.Id,
                     Name = x.Name, 
-                    CardNumberRegEx = x.CardNumberRegEx })
+                    CardNumberRegEx = x.CardNumberRegEx,
+                    LastModified = x.LastModified
+                })
                 .ToListAsync();
         }
     }

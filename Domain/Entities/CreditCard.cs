@@ -14,9 +14,11 @@ namespace Domain.Entities
         {
             Number = string.Empty;
             CreditCardProvider = new CreditCardProvider();
+            DateCreated = DateTime.Now;
         }
 
         public string Number { get; set; }
         public CreditCardProvider CreditCardProvider { get; set; }
+        public DateTime DateCreated { get; set; }
     }
 }

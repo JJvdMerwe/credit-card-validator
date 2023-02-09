@@ -12,5 +12,6 @@ namespace Domain.Entities
 
         public string Name { get; set; }
         public string CardNumberRegEx { get; set; }
+        public DateTime LastModified { get; set; }
     }
 }
