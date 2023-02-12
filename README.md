@@ -10,3 +10,6 @@ Queries and Commands are immutable records
 
 TODO:
 Data annotations on DTOs are a bit iffy
+Split UnitOfWork and Repository
+Return Credit Card Id on submit to database
+
