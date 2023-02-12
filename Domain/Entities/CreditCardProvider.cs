@@ -10,8 +10,8 @@ namespace Domain.Entities
             CardNumberRegEx = string.Empty;
         }
 
-        public string Name { get; set; }
-        public string CardNumberRegEx { get; set; }
-        public DateTime LastModified { get; set; }
+        public virtual string Name { get; set; }
+        public virtual string CardNumberRegEx { get; set; }
+        public virtual DateTime LastModified { get; set; }
     }
 }

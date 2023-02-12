@@ -17,8 +17,8 @@ namespace Domain.Entities
             DateCreated = DateTime.Now;
         }
 
-        public string Number { get; set; }
-        public CreditCardProvider Provider { get; set; }
-        public DateTime DateCreated { get; set; }
+        public virtual string Number { get; set; }
+        public virtual CreditCardProvider Provider { get; set; }
+        public virtual DateTime DateCreated { get; set; }
     }
 }

@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Application.CreditCards.DTOs.CreditCardDTO>
+
+@{
+    ViewData["Title"] = "Credit Cards";
+}
+
+<h1>Credit Cards</h1>
+
+<p>
+    <a asp-action="Create">Add New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Number)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProviderName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+                <tr>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Number)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.ProviderName)
+                    </td>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>

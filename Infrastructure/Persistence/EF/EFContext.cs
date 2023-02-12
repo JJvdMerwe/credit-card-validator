@@ -9,7 +9,9 @@ namespace Infrastructure.Persistence.EF
         DbSet<CreditCardProvider> CreditCardProviders { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-        => options.UseSqlite("Data Source=Persistence\\app.db");
+        => options
+            .UseSqlite("Data Source=Persistence\\app.db")
+            .UseLazyLoadingProxies();
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

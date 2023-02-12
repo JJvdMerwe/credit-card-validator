@@ -35,15 +35,16 @@ namespace CreditCardValidator.Controllers
         // POST: CreditCardProvidersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,CardNumberRegEx")] CreditCardProviderDTO provider)
+        public async Task<IActionResult> Create([Bind("Name,CardNumberRegEx")] CreditCardProviderDTO providerDTO)
         {
             if (ModelState.IsValid)
             {
-                await _mediator.Send(new CreateCreditCardProviderCommand(provider));
+                await _mediator.Send(new CreateCreditCardProviderCommand(providerDTO));
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(provider);
+
+            return View(providerDTO);
         }
 
         // GET: CreditCardProvidersController/Edit/5
@@ -67,9 +68,9 @@ namespace CreditCardValidator.Controllers
         // POST: CreditCardProvidersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CardNumberRegEx")] CreditCardProviderDTO provider)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CardNumberRegEx")] CreditCardProviderDTO providerDTO)
         {
-            if (id != provider.Id)
+            if (id != providerDTO.Id)
             {
                 return NotFound();
             }
@@ -78,13 +79,13 @@ namespace CreditCardValidator.Controllers
             {
                 try
                 {
-                    await _mediator.Send(new UpdateCreditCardProviderCommand(provider));
+                    await _mediator.Send(new UpdateCreditCardProviderCommand(providerDTO));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    provider = await _mediator.Send(new GetCreditCardProviderQuery(id));
+                    providerDTO = await _mediator.Send(new GetCreditCardProviderQuery(id));
 
-                    if (provider == null)
+                    if (providerDTO == null)
                     {
                         return NotFound();
                     }
@@ -97,7 +98,7 @@ namespace CreditCardValidator.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(provider);
+            return View(providerDTO);
         }
 
         // GET: CreditCardProvidersController/Delete/5
