@@ -14,19 +14,20 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Number" class="control-label"></label>
-                <input asp-for="Number" class="form-control" />
-                <span asp-validation-for="Number" class="text-danger"></span>
+                <input asp-for="Number" id="txtCardNumber" class="form-control" />
+                <span asp-validation-for="Number" id="spanError" class="text-danger"></span>
                 @if (!string.IsNullOrWhiteSpace(ViewBag.SuccessMessage))
                 {
-                    <span class="text-success">
+                    <span id="spanSuccess" class="text-success">
                         @ViewBag.SuccessMessage
                     </span>
                 }
+                <span id="spanInfo" class="text-info"></span>
             </div>
             <div class="mt-2 form-group">
-                <input type="submit" value="Submit" class="btn btn-primary" />
+                <input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary" />
             </div>
-            
+
         </form>
     </div>
 </div>
@@ -39,4 +40,68 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        let providerDTOs = @Html.Raw(Json.Serialize(@ViewBag.ProviderDTOs));
+
+        $(document).ready(function () {
+
+            console.log(providerDTOs);
+
+            $("#btnSubmit").click(function () {
+                return validateCardNumber();
+            });
+
+            $('#txtCardNumber').on("input", validateCardNumber);
+        });
+
+        function validateCardNumber() {
+            console.log("providerCheck");
+            console.log("here");
+
+            let cardNumber = $("#txtCardNumber").val();
+
+            let name = "";
+            let providerDetected = false;
+
+            let $spanError = $("#spanError");
+            $spanError.empty();
+
+            let $spanSuccess = $("#spanSuccess");
+            $spanSuccess.empty();
+
+            if (cardNumber == "") {
+                $spanError.append("The Number field is required.");
+
+                return false;
+            } else {
+                providerDTOs.every(item => {
+                    let re = new RegExp(item.cardNumberRegEx);
+                    let result = re.test(cardNumber);
+
+                    console.log(result);
+
+                    if (result) {
+                        providerDetected = true;
+                        name = item.name;
+                        return false;
+                    }
+
+                    return true;
+                });
+
+                let $spanInfo = $("#spanInfo");
+                $spanInfo.empty();
+
+                if (providerDetected) {
+                    $spanInfo.append(name + " card number detected");
+                } else {
+                    $spanError.append("The number does not match any of the configured providers.");
+                }
+
+                return providerDetected;
+            }
+        }
+
+    </script>
 }

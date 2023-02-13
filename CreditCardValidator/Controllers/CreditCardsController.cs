@@ -1,14 +1,10 @@
-﻿using Application.CreditCardProviders.Commands;
-using Application.CreditCardProviders.DTOs;
-using Application.CreditCardProviders.Queries;
+﻿using Application.CreditCardProviders.Queries;
 using Application.CreditCards.Commands;
 using Application.CreditCards.DTOs;
 using Application.CreditCards.Queries;
-using Infrastructure.Persistence.EF;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace CreditCardValidator.Controllers
 {
@@ -30,8 +26,11 @@ namespace CreditCardValidator.Controllers
         }
 
         // GET: CreditCardProvidersController/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(CancellationToken cancellationToken)
         {
+            var providerDTOs = await _mediator.Send(new GetCreditCardProvidersQuery(), cancellationToken);
+            ViewBag.ProviderDTOs = providerDTOs;
+
             return View();
         }
 
@@ -60,6 +59,9 @@ namespace CreditCardValidator.Controllers
                     ModelState.AddModelError("Number", "The Number field is required.");
                 }
             }
+
+            var providerDTOs = await _mediator.Send(new GetCreditCardProvidersQuery(), cancellationToken);
+            ViewBag.ProviderDTOs = providerDTOs;
 
             return View(creditCardDTO);
         }
