@@ -25,7 +25,7 @@ namespace Application.CreditCards.Commands
                 return new SubmitCreditCardResult
                 {
                     IsSuccess = false,
-                    Message = "This number already exists"
+                    Message = "This number has already been submitted."
                 };
             }
 
