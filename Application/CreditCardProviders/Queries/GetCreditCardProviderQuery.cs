@@ -22,7 +22,7 @@ namespace Application.CreditCardProviders.Queries
 
         public async Task<CreditCardProviderDTO?> Handle(GetCreditCardProviderQuery request, CancellationToken cancellationToken)
         {
-            var entity = await _unitOfWork.CreditCardProviderRepository.GetByIdAsync(request.Id);
+            var entity = await _unitOfWork.CreditCardProviderRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if (entity == null)
             {

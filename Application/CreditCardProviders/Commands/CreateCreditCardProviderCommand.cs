@@ -32,7 +32,7 @@ namespace Application.CreditCardProviders.Commands
 
             _unitOfWork.CreditCardProviderRepository.Add(provider);
 
-            return await _unitOfWork.SaveChangesAsync();
+            return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 }

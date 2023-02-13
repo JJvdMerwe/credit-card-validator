@@ -33,7 +33,7 @@ namespace Application.CreditCardProviders.Commands
             };
 
             _unitOfWork.CreditCardProviderRepository.Update(provider);
-            return await _unitOfWork.SaveChangesAsync();
+            return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 

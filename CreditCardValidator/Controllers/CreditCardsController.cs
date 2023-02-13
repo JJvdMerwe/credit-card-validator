@@ -22,9 +22,9 @@ namespace CreditCardValidator.Controllers
         }
 
         // GET: CreditCardProvidersController
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var cardDTOs = await _mediator.Send(new GetCreditCardsQuery());
+            var cardDTOs = await _mediator.Send(new GetCreditCardsQuery(), cancellationToken);
 
             return View(cardDTOs);
         }
@@ -38,13 +38,13 @@ namespace CreditCardValidator.Controllers
         // POST: CreditCardProvidersController/Create
         [HttpPost, ActionName("Create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Submit([Bind("Number")] CreditCardDTO creditCardDTO)
+        public async Task<IActionResult> Submit([Bind("Number")] CreditCardDTO creditCardDTO, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
                 if (!string.IsNullOrWhiteSpace(creditCardDTO.Number))
                 {
-                    var result = await _mediator.Send(new SubmitCreditCardCommand(creditCardDTO));
+                    var result = await _mediator.Send(new SubmitCreditCardCommand(creditCardDTO), cancellationToken);
 
                     if (result.IsSuccess)
                     {

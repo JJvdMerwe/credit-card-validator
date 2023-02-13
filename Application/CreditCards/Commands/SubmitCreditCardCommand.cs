@@ -20,7 +20,7 @@ namespace Application.CreditCards.Commands
 
         public async Task<SubmitCreditCardResult> Handle(SubmitCreditCardCommand request, CancellationToken cancellationToken)
         {
-            if (await CreditCardExists(request.Data.Number))
+            if (await CreditCardExists(request.Data.Number, cancellationToken))
             {
                 return new SubmitCreditCardResult
                 {
@@ -29,7 +29,7 @@ namespace Application.CreditCards.Commands
                 };
             }
 
-            var providers = await _unitOfWork.CreditCardProviderRepository.GetAll().ToListAsync();
+            var providers = await _unitOfWork.CreditCardProviderRepository.GetAll().ToListAsync(cancellationToken);
             Dictionary<int, string> regularExpressions = providers.ToDictionary(x => x.Id, x => x.CardNumberRegEx);
 
             var regExValidator = new RegExValidator();
@@ -67,7 +67,7 @@ namespace Application.CreditCards.Commands
             };
 
             _unitOfWork.CreditCardRepository.Add(creditCard);
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             var providerName = matchedProvider.Name;
 
@@ -78,9 +78,9 @@ namespace Application.CreditCards.Commands
             };
         }
 
-        private async Task<bool> CreditCardExists(string number)
+        private async Task<bool> CreditCardExists(string number, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.CreditCardRepository.GetAll().AnyAsync(x => x.Number == number);
+            return await _unitOfWork.CreditCardRepository.GetAll().AnyAsync(x => x.Number == number, cancellationToken);
         }
     }
 }

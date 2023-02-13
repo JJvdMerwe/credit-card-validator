@@ -1,9 +1,7 @@
 ﻿using Application.CreditCardProviders.Commands;
 using Application.CreditCardProviders.DTOs;
 using Application.CreditCardProviders.Queries;
-using Infrastructure.Persistence.EF;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,9 +17,9 @@ namespace CreditCardValidator.Controllers
         }
 
         // GET: CreditCardProvidersController
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var providerDTOs = await _mediator.Send(new GetCreditCardProvidersQuery());
+            var providerDTOs = await _mediator.Send(new GetCreditCardProvidersQuery(), cancellationToken);
 
             return View(providerDTOs);
         }
@@ -35,11 +33,11 @@ namespace CreditCardValidator.Controllers
         // POST: CreditCardProvidersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,CardNumberRegEx")] CreditCardProviderDTO providerDTO)
+        public async Task<IActionResult> Create([Bind("Name,CardNumberRegEx")] CreditCardProviderDTO providerDTO, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
-                await _mediator.Send(new CreateCreditCardProviderCommand(providerDTO));
+                await _mediator.Send(new CreateCreditCardProviderCommand(providerDTO), cancellationToken);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -48,14 +46,14 @@ namespace CreditCardValidator.Controllers
         }
 
         // GET: CreditCardProvidersController/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, CancellationToken cancellationToken)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var providerDTO = await _mediator.Send(new GetCreditCardProviderQuery(id.Value));
+            var providerDTO = await _mediator.Send(new GetCreditCardProviderQuery(id.Value), cancellationToken);
 
             if (providerDTO == null)
             {
@@ -68,7 +66,7 @@ namespace CreditCardValidator.Controllers
         // POST: CreditCardProvidersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CardNumberRegEx")] CreditCardProviderDTO providerDTO)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CardNumberRegEx")] CreditCardProviderDTO providerDTO, CancellationToken cancellationToken)
         {
             if (id != providerDTO.Id)
             {
@@ -79,11 +77,11 @@ namespace CreditCardValidator.Controllers
             {
                 try
                 {
-                    await _mediator.Send(new UpdateCreditCardProviderCommand(providerDTO));
+                    await _mediator.Send(new UpdateCreditCardProviderCommand(providerDTO), cancellationToken);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    providerDTO = await _mediator.Send(new GetCreditCardProviderQuery(id));
+                    providerDTO = await _mediator.Send(new GetCreditCardProviderQuery(id), cancellationToken);
 
                     if (providerDTO == null)
                     {
@@ -102,14 +100,14 @@ namespace CreditCardValidator.Controllers
         }
 
         // GET: CreditCardProvidersController/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, CancellationToken cancellationToken)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var providerDTO = await _mediator.Send(new GetCreditCardProviderQuery(id.Value));
+            var providerDTO = await _mediator.Send(new GetCreditCardProviderQuery(id.Value), cancellationToken);
 
             if (providerDTO == null)
             {
@@ -122,9 +120,9 @@ namespace CreditCardValidator.Controllers
         // POST: CreditCardProvidersController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
-            await _mediator.Send(new DeleteCreditCardProviderCommand(id));
+            await _mediator.Send(new DeleteCreditCardProviderCommand(id), cancellationToken);
 
             return RedirectToAction(nameof(Index));
         }

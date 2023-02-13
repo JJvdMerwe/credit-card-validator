@@ -32,9 +32,9 @@ namespace Infrastructure.Persistence.EF
             return _dataSet.AsAsyncEnumerable();
         }
 
-        public async Task<T?> GetByIdAsync(object id)
+        public async Task<T?> GetByIdAsync(object id, CancellationToken cancellationToken)
         {
-            return await _dataSet.FindAsync(id);
+            return await _dataSet.FindAsync(id, cancellationToken);
         }
 
         public void Update(T entity)

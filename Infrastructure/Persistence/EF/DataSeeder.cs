@@ -27,7 +27,7 @@ namespace Infrastructure.Persistence.EF
                 creditCardProviders.Add(new CreditCardProvider() { Name = "Amex", CardNumberRegEx = "^3[47][0-9]{13}$", LastModified = lastModified });
                 creditCardProviders.Add(new CreditCardProvider() { Name = "Discover", CardNumberRegEx = "^6(?:011|5[0-9]{2})[0-9]{12}$", LastModified = lastModified });
 
-                await _unitOfWork.SaveChangesAsync();
+                await _unitOfWork.SaveChangesAsync(new CancellationToken());
             }
         }
     }

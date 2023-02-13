@@ -24,7 +24,7 @@ namespace Application.CreditCardProviders.Queries
                     CardNumberRegEx = x.CardNumberRegEx,
                     LastModified = x.LastModified
                 })
-                .ToListAsync();
+                .ToListAsync(cancellationToken);
         }
     }
 }

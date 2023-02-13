@@ -11,6 +11,6 @@ namespace Application.Common.Interfaces
     {
         IGenericRepository<CreditCard> CreditCardRepository { get; }
         IGenericRepository<CreditCardProvider> CreditCardProviderRepository { get; }
-        Task<int> SaveChangesAsync();
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }
