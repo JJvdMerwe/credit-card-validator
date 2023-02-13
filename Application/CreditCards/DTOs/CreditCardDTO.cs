@@ -9,7 +9,6 @@ namespace Application.CreditCards.DTOs
 {
     public class CreditCardDTO
     {
-        [CreditCard]
         public string? Number { get; set; }
 
         [Display(Name = "Provider Name")]
