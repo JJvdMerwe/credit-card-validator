@@ -25,7 +25,7 @@
                 <span id="spanInfo" class="text-info"></span>
             </div>
             <div class="mt-2 form-group">
-                <input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary" />
+                <input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary" disabled/>
             </div>
 
         </form>
@@ -70,8 +70,14 @@
             let $spanSuccess = $("#spanSuccess");
             $spanSuccess.empty();
 
+            let $spanInfo = $("#spanInfo");
+            $spanInfo.empty();
+
+            $btnSubmit = $("#btnSubmit");
+
             if (cardNumber == "") {
                 $spanError.append("The Number field is required.");
+                $btnSubmit.prop('disabled', true);
 
                 return false;
             } else {
@@ -89,18 +95,17 @@
 
                     return true;
                 });
-
-                let $spanInfo = $("#spanInfo");
-                $spanInfo.empty();
-
-                if (providerDetected) {
-                    $spanInfo.append(name + " card number detected");
-                } else {
-                    $spanError.append("The number does not match any of the configured providers.");
-                }
-
-                return providerDetected;
             }
+
+            if (providerDetected) {
+                $spanInfo.append(name + " card number detected");
+                $btnSubmit.prop('disabled', false);
+            } else {
+                $spanError.append("The number does not match any of the configured providers.");
+                $btnSubmit.prop('disabled', true);
+            }
+
+            return providerDetected;
         }
 
     </script>
