@@ -5,6 +5,7 @@ Entity framework, SQLite, the DB file is committed, can be deleted. It is ensure
 Clean Architecture
 CQRS
 DTOs
+MediatR
 
 Queries and Commands are immutable records
 
