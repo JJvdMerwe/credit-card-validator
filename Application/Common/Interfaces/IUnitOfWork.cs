@@ -9,8 +9,6 @@ namespace Application.Common.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IGenericRepository<CreditCard> CreditCardRepository { get; }
-        IGenericRepository<CreditCardProvider> CreditCardProviderRepository { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }
 }

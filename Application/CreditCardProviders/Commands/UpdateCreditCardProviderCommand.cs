@@ -16,10 +16,14 @@ namespace Application.CreditCardProviders.Commands
     public class UpdateCreditCardProviderCommandHandler : IRequestHandler<UpdateCreditCardProviderCommand, int>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IGenericRepository<CreditCardProvider> _creditCardProviderRepository;
 
-        public UpdateCreditCardProviderCommandHandler(IUnitOfWork unitOfWork)
+        public UpdateCreditCardProviderCommandHandler(
+            IUnitOfWork unitOfWork,
+            IGenericRepository<CreditCardProvider> creditCardProviderRepository)
         {
             _unitOfWork = unitOfWork;
+            _creditCardProviderRepository = creditCardProviderRepository;
         }
 
         public async Task<int> Handle(UpdateCreditCardProviderCommand request, CancellationToken cancellationToken)
@@ -32,7 +36,7 @@ namespace Application.CreditCardProviders.Commands
                 Name = request.Data.Name,
             };
 
-            _unitOfWork.CreditCardProviderRepository.Update(provider);
+            _creditCardProviderRepository.Update(provider);
             return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }

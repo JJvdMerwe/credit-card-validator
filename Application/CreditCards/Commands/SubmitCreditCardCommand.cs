@@ -12,10 +12,18 @@ namespace Application.CreditCards.Commands
     public class SubmitCreditCardCommandHandler : IRequestHandler<SubmitCreditCardCommand, SubmitCreditCardResult>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IGenericRepository<CreditCardProvider> _creditCardProviderRepository;
+        private readonly IGenericRepository<CreditCard> _creditCardRepository;
 
-        public SubmitCreditCardCommandHandler(IUnitOfWork unitOfWork)
+        public SubmitCreditCardCommandHandler(
+            IUnitOfWork unitOfWork,
+            IGenericRepository<CreditCardProvider> creditCardProviderRepository,
+            IGenericRepository<CreditCard> creditCardRepository
+            )
         {
             _unitOfWork = unitOfWork;
+            _creditCardProviderRepository = creditCardProviderRepository;
+            _creditCardRepository = creditCardRepository;
         }
 
         public async Task<SubmitCreditCardResult> Handle(SubmitCreditCardCommand request, CancellationToken cancellationToken)
@@ -29,7 +37,7 @@ namespace Application.CreditCards.Commands
                 };
             }
 
-            var providers = await _unitOfWork.CreditCardProviderRepository.GetAll()
+            var providers = await _creditCardProviderRepository.GetAll()
                 .ToAsyncEnumerable()
                 .ToListAsync(cancellationToken);
             Dictionary<int, string> regularExpressions = providers.ToDictionary(x => x.Id, x => x.CardNumberRegEx);
@@ -68,7 +76,7 @@ namespace Application.CreditCards.Commands
                 Provider = matchedProvider
             };
 
-            _unitOfWork.CreditCardRepository.Add(creditCard);
+            _creditCardRepository.Add(creditCard);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             var providerName = matchedProvider.Name;
@@ -82,7 +90,7 @@ namespace Application.CreditCards.Commands
 
         private async Task<bool> CreditCardExists(string number, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.CreditCardRepository.GetAll()
+            return await _creditCardRepository.GetAll()
                 .ToAsyncEnumerable()
                 .AnyAsync(x => x.Number == number, cancellationToken);
         }

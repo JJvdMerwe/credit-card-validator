@@ -14,17 +14,21 @@ namespace Application.CreditCardProviders.Commands
     public class DeleteCreditCardProviderCommandHandler : IRequestHandler<DeleteCreditCardProviderCommand, int>
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IGenericRepository<CreditCardProvider> _creditCardProviderRepository;
 
-        public DeleteCreditCardProviderCommandHandler(IUnitOfWork unitOfWork)
+        public DeleteCreditCardProviderCommandHandler(
+            IUnitOfWork unitOfWork,
+            IGenericRepository<CreditCardProvider> _creditCardProviderRepository)
         {
             _unitOfWork = unitOfWork;
+            this._creditCardProviderRepository = _creditCardProviderRepository;
         }
 
         public async Task<int> Handle(DeleteCreditCardProviderCommand request, CancellationToken cancellationToken)
         {
             var provider = new CreditCardProvider { Id = request.Id };
 
-            _unitOfWork.CreditCardProviderRepository.Delete(provider);
+            _creditCardProviderRepository.Delete(provider);
 
             return await _unitOfWork.SaveChangesAsync(cancellationToken);
         }

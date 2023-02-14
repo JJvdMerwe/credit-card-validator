@@ -1,5 +1,6 @@
 ﻿using Application.Common.Interfaces;
 using Application.CreditCards.DTOs;
+using Domain.Entities;
 using MediatR;
 
 namespace Application.CreditCards.Queries
@@ -8,16 +9,16 @@ namespace Application.CreditCards.Queries
 
     public class GetCreditCardsQueryHandler : IRequestHandler<GetCreditCardsQuery, List<CreditCardDTO>>
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IGenericRepository<CreditCard> _creditCardRepository;
 
-        public GetCreditCardsQueryHandler(IUnitOfWork unitOfWork)
+        public GetCreditCardsQueryHandler(IGenericRepository<CreditCard> creditCardRepository)
         {
-            _unitOfWork = unitOfWork;
+            _creditCardRepository = creditCardRepository;
         }
 
         public async Task<List<CreditCardDTO>> Handle(GetCreditCardsQuery request, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.CreditCardRepository.GetAll()
+            return await _creditCardRepository.GetAll()
                 .Select(x => new CreditCardDTO()
                 {
                     Number = x.Number,
