@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.CreditCards.Queries
 {
-    public record GetCreditCardsQuery : IRequest<List<CreditCardDTO>>;
+    public record GetCreditCardsQuery(string ProviderNameSearch = "") : IRequest<List<CreditCardDTO>>;
 
     public class GetCreditCardsQueryHandler : IRequestHandler<GetCreditCardsQuery, List<CreditCardDTO>>
     {
@@ -18,7 +18,14 @@ namespace Application.CreditCards.Queries
 
         public async Task<List<CreditCardDTO>> Handle(GetCreditCardsQuery request, CancellationToken cancellationToken)
         {
-            return await _creditCardRepository.GetAll()
+            var cards = _creditCardRepository.GetAll();
+
+            if (!string.IsNullOrWhiteSpace(request.ProviderNameSearch))
+            {
+                cards = cards.Where(x => x.Provider.Name.ToLower().Contains(request.ProviderNameSearch.ToLower()));
+            }
+
+            return await cards
                 .Select(x => new CreditCardDTO()
                 {
                     Number = x.Number,

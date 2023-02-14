@@ -18,9 +18,9 @@ namespace CreditCardValidator.Controllers
         }
 
         // GET: CreditCardProvidersController
-        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(string searchString, CancellationToken cancellationToken)
         {
-            var cardDTOs = await _mediator.Send(new GetCreditCardsQuery(), cancellationToken);
+            var cardDTOs = await _mediator.Send(new GetCreditCardsQuery(searchString), cancellationToken);
 
             return View(cardDTOs);
         }

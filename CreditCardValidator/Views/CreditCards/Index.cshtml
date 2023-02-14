@@ -9,6 +9,14 @@
 <p>
     <a asp-action="Create">Add New</a>
 </p>
+
+<form asp-controller="CreditCards" asp-action="Index">
+    <div class="col-md-4">
+        @Html.DisplayNameFor(model => model.ProviderName): <input type="text" name="searchString" class="form-control" />
+        <input type="submit" value="Filter" class="btn btn-primary mt-2" />
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
