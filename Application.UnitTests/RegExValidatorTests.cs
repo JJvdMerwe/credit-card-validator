@@ -3,7 +3,7 @@ using Application.CreditCards.Utilities;
 namespace Application.UnitTests
 {
     [TestFixture]
-    public class RegExValidatorTests
+    internal class RegExValidatorTests
     {
         private Dictionary<int, string> _regExpressions;
         private RegExValidator _regExValidator;
@@ -41,7 +41,6 @@ namespace Application.UnitTests
         public void Validate_HasUniqueDictionaryWithMatch_ReturnOneExpectedKey(int expectedKey, string expression)
         {
             // Arrange
-            Setup();
 
             // Act
             var matchingKeys = _regExValidator.Validate(_regExpressions, expression);
@@ -55,7 +54,6 @@ namespace Application.UnitTests
         public void Validate_HasUniqueDictionaryWithNoMatch_ReturnEmpty()
         {
             // Arrange
-            Setup();
 
             // Act
             var matchingKeys = _regExValidator.Validate(_regExpressions, _expressionNonMatching);
@@ -70,8 +68,6 @@ namespace Application.UnitTests
         public void Validate_HasNonUniqueDictionaryWithMatch_ReturnMultiple(int duplicateCount)
         {
             // Arrange
-            Setup();
-
             for (int i = 0; i < (duplicateCount - 1); i++)
             {
                 _regExpressions.Add((_regExpressions.Count + 1), _regEx1);

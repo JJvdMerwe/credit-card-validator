@@ -28,6 +28,17 @@ namespace Application.CreditCards.Commands
 
         public async Task<SubmitCreditCardResult> Handle(SubmitCreditCardCommand request, CancellationToken cancellationToken)
         {
+            LuhnValidator luhnValidator = new LuhnValidator();
+
+            if (!luhnValidator.Validate(request.Data.Number))
+            {
+                return new SubmitCreditCardResult
+                {
+                    IsSuccess = false,
+                    Message = "This number failed the Luhn Check. It is not a valid credit card number."
+                };
+            }
+
             if (await CreditCardExists(request.Data.Number, cancellationToken))
             {
                 return new SubmitCreditCardResult
