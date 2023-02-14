@@ -24,6 +24,7 @@ namespace Application.CreditCards.Queries
                     ProviderName = x.Provider.Name,
                     DateCreated = x.DateCreated
                 })
+                .ToAsyncEnumerable()
                 .ToListAsync(cancellationToken);
         }
     }

@@ -29,7 +29,9 @@ namespace Application.CreditCards.Commands
                 };
             }
 
-            var providers = await _unitOfWork.CreditCardProviderRepository.GetAll().ToListAsync(cancellationToken);
+            var providers = await _unitOfWork.CreditCardProviderRepository.GetAll()
+                .ToAsyncEnumerable()
+                .ToListAsync(cancellationToken);
             Dictionary<int, string> regularExpressions = providers.ToDictionary(x => x.Id, x => x.CardNumberRegEx);
 
             var regExValidator = new RegExValidator();
@@ -80,7 +82,9 @@ namespace Application.CreditCards.Commands
 
         private async Task<bool> CreditCardExists(string number, CancellationToken cancellationToken)
         {
-            return await _unitOfWork.CreditCardRepository.GetAll().AnyAsync(x => x.Number == number, cancellationToken);
+            return await _unitOfWork.CreditCardRepository.GetAll()
+                .ToAsyncEnumerable()
+                .AnyAsync(x => x.Number == number, cancellationToken);
         }
     }
 }

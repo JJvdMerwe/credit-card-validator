@@ -27,9 +27,9 @@ namespace Infrastructure.Persistence.EF
             _dataSet.Remove(entity);
         }
 
-        public IAsyncEnumerable<T> GetAll()
+        public IQueryable<T> GetAll()
         {
-            return _dataSet.AsAsyncEnumerable();
+            return _dataSet.AsQueryable();
         }
 
         public async Task<T?> GetByIdAsync(object id, CancellationToken cancellationToken)
