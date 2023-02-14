@@ -10,6 +10,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<EFContext>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly(), typeof(IUnitOfWork).Assembly);
 
 var app = builder.Build();
