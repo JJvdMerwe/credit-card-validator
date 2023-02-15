@@ -1,6 +1,6 @@
 # Credit Card Validator
 A solution that validates credit card numbers and stores them if they are valid.  
-The current version is configured for SQLite and data is seeded on application start.  
+The current version is configured for SQLite ease of testing and data is seeded on application start.  
 
 ## Clean Architecture
 Clean architecture is the chosen architecture for this project. The solution consists of multiple projects: 
